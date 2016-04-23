@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: پرداخت زرین‌پال
+Plugin Name:دانلود به ازای پرداخت زرین‌پال
 Plugin URI: https://www.zarinpal.com/
 Description: اين افزونه امکان فروش فايل را از طريق درگاه پرداخت زرین‌پال براي شما فراهم مي نمايد .
-Version: 2.0
+Version: 2.2
 Author: Masoud Amini
 Author URI: http://www.masoudamini.ir
 */
@@ -1367,13 +1367,13 @@ class zarinpalpaiddownloads_class {
                     $postPrice = $postPrice / 10;
 
 				
-				 $client = new SoapClient('https://de.zarinpal.com/pg/services/WebGate/wsdl', ['encoding' => 'UTF-8']);
+				 $client = new SoapClient('https://www.zarinpal.com/pg/services/WebGate/wsdl', array('encoding' => 'UTF-8'));
 				$result = $client->PaymentVerification(
-									[
+									array(
 											'MerchantID'     => $this->options['zarinpal_merchantid'],
 											'Authority'      => $Authority,
 											'Amount'         => $postPrice,
-										]
+										)
 				);
 			/*	if ($result->Status == 100) {
 					echo 'Transation success. RefID:'.$result->RefID;
@@ -1511,47 +1511,17 @@ class zarinpalpaiddownloads_class {
                          درحال اتصال به درگاه پرداخت زرین‌پال ...
                         </div>';
 
-/*
-                $form = '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Connecting ....</title>
-                    <meta http-equiv="Content-Type" content="Type=text/html; charset=utf-8" />   
-                </head>
-                         <body style="font-family:tahoma; text-align:center;font-waight:bold;direction:rtl">
-                         <img src="'.plugins_url('/images/ajaxLoader.gif', __FILE__).'" alt="Connecting ...." style="margin: 5px 0px;"><br><br>
-                         '.$mess;
-                $form .= '
-                    <form action="http://merchant.zarinpal.com/PostService/" method="post" style="display:none;">
-                    <input type="hidden" id="MerchantID" value="'.$this->options['zarinpal_merchantid'].'" name="MerchantID"/>
-                	
-					<input type="hidden" name="Description" value="'.$_POST['Description'].'">
-					<input type="hidden" name="ResNumber" value="'.$resNum.'">
-					<input type="hidden" name="Price" value="'.$price.'">
-					<input type="hidden" name="Paymenter" value="'.$_POST['Paymenter'].'">
-   					<input type="hidden" name="Email" value="'.$_POST['Email'].'">
-                    <input type="hidden" name="Mobile" value="'.$_POST['Mobile'].'">
-					<input type="hidden" name="ReturnPath" value="'.get_bloginfo("wpurl").'/?zarinpalpaiddownloads_ipn=zarinpal">
-					<input id="zarinpal_connect" type="submit" value="Buy Now" style="margin: 0px; padding: 0px;">
-				</form>
-                   <script language="javascript" type="text/javascript" >
-                    window.onload = document.body.onload = function()
-                    {
-                        document.getElementById("zarinpal_connect").click();
-                    }
-                   </script>
-                </body>
 
-                </html>'         ;
-                echo $form;
-				*/
-				 $client = new SoapClient('https://de.zarinpal.com/pg/services/WebGate/wsdl', ['encoding' => 'UTF-8']);
+				 $client = new SoapClient('https://www.zarinpal.com/pg/services/WebGate/wsdl', array('encoding' => 'UTF-8'));
 				$result = $client->PaymentRequest(
-									[
+									array(
 											'MerchantID'     => $this->options['zarinpal_merchantid'],
 											'Amount'         => $price,
 											'Description'    => $_POST['Description'],
 											'Email'          => $_POST['Email'],
 											'Mobile'         => $_POST['Mobile'],
 											'CallbackURL'    => get_bloginfo("wpurl").'/?zarinpalpaiddownloads_ipn=zarinpal&resNum='. $resNum,
-										]
+										)
 				);
 				//Redirect to URL You can do it also by creating a form
 				if ($result->Status == 100) {
